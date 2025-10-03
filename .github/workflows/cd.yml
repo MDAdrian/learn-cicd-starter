@@ -34,3 +34,6 @@ jobs:
         
         - name: Build docker and Push to Artifact Registry
           run: gcloud builds submit --tag europe-west10-docker.pkg.dev/key-scarab-473518-g8/notely-ar-repo/revmn/notely:latest .
+        
+        - name: Deploy to Cloud Run
+          run: gcloud run deploy notely --image europe-west10-docker.pkg.dev/key-scarab-473518-g8/notely-ar-repo/revmn/notely:latest --region europe-west10 --allow-unauthenticated --project key-scarab-473518-g8 --max-instances=4 
