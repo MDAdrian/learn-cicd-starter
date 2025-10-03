@@ -18,5 +18,19 @@ jobs:
           with:
             go-version: "1.25.1"
       
-        - name: Build
+        - name: Build Prod
           run: scripts/buildprod.sh
+
+        - id: 'auth'
+          uses: 'google-github-actions/auth@v2'
+          with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+        - name: 'Set up Cloud SDK'
+          uses: 'google-github-actions/setup-gcloud@v3'
+
+        - name: 'Use gcloud CLI'
+          run: 'gcloud info'
+        
+        - name: Build docker and Push to Artifact Registry
+          run: gcloud builds submit --tag europe-west10-docker.pkg.dev/key-scarab-473518-g8/notely-ar-repo/revmn/notely:latest .
